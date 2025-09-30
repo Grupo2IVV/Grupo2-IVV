@@ -8,6 +8,14 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
+ Product
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.13">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9">
@@ -16,6 +24,7 @@
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.5" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.5" />
+main
     </ItemGroup>
 
 </Project>
