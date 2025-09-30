@@ -1,23 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using PrimerParcialProgra.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-//IVV Add services to the container.
+// Connection string
+var conn = builder.Configuration.GetConnectionString("DefaultConnection")
+           ?? throw new InvalidOperationException("Missing connection string 'DefaultConnection'.");
 
+// Services
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(conn));
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// Swagger SIEMPRE (el examen lo pide accesible en Azure)
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Health check simple
+app.MapGet("/ping", () => Results.Ok("pong"));
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
