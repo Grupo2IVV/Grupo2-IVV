@@ -1,6 +1,9 @@
-﻿namespace PrimerParcialProgra.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PrimerParcialProgra.Models;
 
-public class AppDbContext
+namespace PrimerParcialProgra.Data;
+
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    
+    public DbSet<Event> Events => Set<Event>();
 }
