@@ -1,14 +1,12 @@
-﻿namespace TuProyecto.Models
+﻿using Microsoft.EntityFrameworkCore;
+using PrimerParcialProgra.Models; // Importa el Product.cs
+
+namespace PrimerParcialProgra.Data
 {
-    public class Product
+    public class AppDbContext : DbContext
     {
-        public int Id { get; set; } // PK
-        public string Name { get; set; } 
-        public string? Description { get; set; } // nullable
-        public decimal Price { get; set; }
-        public int Stock { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; } // nullable
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
