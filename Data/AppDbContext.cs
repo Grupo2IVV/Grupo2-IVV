@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Grupo2.Models; // <-- Ajusta el namespace según el tuyo
+using PrimerParcialProgra.Models;   // <- usar Models
 
-namespace Grupo2.Data
+namespace PrimerParcialProgra.Data   // <- corregir namespace
 {
     public class AppDbContext : DbContext
     {

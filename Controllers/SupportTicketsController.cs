@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Grupo2.Models;
+using PrimerParcialProgra.Data;     // <- ahora sí encuentra AppDbContext
+using PrimerParcialProgra.Models;   // <- ahora sí encuentra SupportTicket
 
-namespace Grupo2.Controllers
+namespace PrimerParcialProgra.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -56,7 +57,22 @@ namespace Grupo2.Controllers
             }
 
             _context.Entry(ticket).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.SupportTickets.Any(e => e.Id == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }
