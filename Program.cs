@@ -3,23 +3,32 @@ using PrimerParcialProgra.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Connection string
-var conn = builder.Configuration.GetConnectionString("DefaultConnection")
-           ?? throw new InvalidOperationException("Missing connection string 'DefaultConnection'.");
+// Leer la cadena de conexión (puede venir de appsettings o de Azure)
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Services
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(conn));
+// Fallback: si no hay cadena, usar InMemory para que la app NO se caiga
+if (string.IsNullOrWhiteSpace(conn))
+{
+    builder.Services.AddDbContext<AppDbContext>(opt =>
+        opt.UseInMemoryDatabase("PrimerParcialDb"));
+    Console.WriteLine("⚠️ Usando InMemoryDatabase porque no se encontró 'DefaultConnection'.");
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(conn));
+}
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Swagger SIEMPRE (el examen lo pide accesible en Azure)
+// Swagger siempre disponible (lo pide el examen)
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Health check simple
+// Healthcheck
 app.MapGet("/ping", () => Results.Ok("pong"));
 
 app.UseHttpsRedirection();
